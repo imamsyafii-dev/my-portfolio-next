@@ -3,11 +3,13 @@ import type { ReactNode } from "react";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Imam Syafi'i — Full-stack & Backend Engineer",
-  description: "Portfolio of Imam Syafi'i, a full-stack and backend engineer in Tangerang, Indonesia, working with Go, PHP, Laravel, Node.js, Vue, and React.",
+  title: "Imam Syafii — Backend Developer | Go, Rust & Real-Time Systems",
+  description:
+    "Portfolio of Imam Syafii, a backend developer with 10+ years of software engineering experience across Go, Rust, real-time systems, APIs, data, and cross-platform applications.",
   openGraph: {
-    title: "Imam Syafi'i — Full-stack & Backend Engineer",
-    description: "Selected platform, API integration, and web application work by Imam Syafi'i.",
+    title: "Imam Syafii — Backend Developer | Go, Rust & Real-Time Systems",
+    description:
+      "Backend engineering, real-time communication, system integration, and cross-platform work by Imam Syafii.",
     type: "website",
   },
 };

@@ -1,6 +1,6 @@
-# Imam Syafi'i — Portfolio
+# Imam Syafii — Portfolio
 
-A privacy-conscious portfolio built with Next.js 16, React 19, TypeScript, and plain CSS.
+A portfolio for Imam Syafii, built with Next.js 16, React 19, TypeScript, and plain CSS.
 
 ## Local setup
 
@@ -21,12 +21,12 @@ pnpm build
 
 ## Architecture
 
-The App Router page is server-rendered by default. Client JavaScript is limited to the mobile navigation and project filtering. Project content lives in `data/projects.ts`; visual styling and all abstract project artwork live in `app/globals.css`.
+The App Router page is server-rendered by default. Client JavaScript is limited to the mobile navigation and accessible project filtering. CV-derived identity, skills, experience, education, and language content is typed in `data/profile.ts`. The 19-card gallery is typed in `data/projects.ts` and uses local screenshots from `public/images/projects/` through `next/image`.
 
 ## Privacy
 
-Only a profile portrait and decorative hero image are published. Project screenshots were intentionally excluded because they contained personal or internal operational data. The six project cards use CSS-native abstract visuals instead. The site also omits phone numbers, birth details, exact addresses, raw IPs, and infrastructure details.
+The published site omits phone numbers, full addresses, dates of birth, private or external raw IP addresses, internal or private service endpoints, and sensitive implementation details. The source CV is not copied into `public/`. Eight gallery files use explicit `-sanitized` filenames alongside existing in-place sanitized replacements. Together they are safe portfolio assets; legacy sensitive originals have been removed from `public/`.
 
 ## Deployment
 
-Run a production build before deploying to a Next.js-compatible host. No production URL, Git remote, or deployment target is configured yet.
+Run a production build before deploying to a Next.js-compatible host. A Git remote may be configured for source collaboration, but no production deployment URL is declared in the application metadata or this repository.

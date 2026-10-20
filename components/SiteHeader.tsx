@@ -32,7 +32,7 @@ export function SiteHeader() {
   return (
     <header className="site-header">
       <div className="header-inner shell">
-        <a className="wordmark" href="#top" aria-label="Imam Syafi'i, back to top">IS<span>.</span></a>
+        <a className="wordmark" href="#top" aria-label="Imam Syafii, back to top">IS<span>.</span></a>
         <button
           ref={menuButtonRef}
           className="menu-toggle"
