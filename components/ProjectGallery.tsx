@@ -5,15 +5,23 @@ import { useEffect, useRef, useState } from "react";
 import { projectCategories, projects, type Project, type ProjectCategory } from "../data/projects";
 import { ArrowUpRight } from "./Icons";
 
-type SelectedImage = {
+type GalleryImage = {
   src: string;
   alt: string;
+};
+
+type SelectedGallery = {
   projectTitle: string;
+  images: readonly GalleryImage[];
 };
 
 type ProjectMediaProps = {
   project: Project;
-  onSelectImage: (image: SelectedImage, trigger: HTMLButtonElement) => void;
+  onSelectImage: (
+    gallery: SelectedGallery,
+    imageIndex: number,
+    trigger: HTMLButtonElement,
+  ) => void;
 };
 
 function ProjectMedia({ project, onSelectImage }: ProjectMediaProps) {
@@ -33,10 +41,39 @@ function ProjectMedia({ project, onSelectImage }: ProjectMediaProps) {
     );
   }
 
+  if (project.mediaType === "image-gallery") {
+    const coverImage = project.images[0];
+
+    return (
+      <button
+        className="project-image-gallery"
+        type="button"
+        aria-label={`Open ${project.title} gallery, ${project.images.length} images`}
+        aria-haspopup="dialog"
+        onClick={({ currentTarget }) =>
+          onSelectImage(
+            { projectTitle: project.title, images: project.images },
+            0,
+            currentTarget,
+          )
+        }
+      >
+        <Image
+          src={coverImage.src}
+          alt={coverImage.alt}
+          fill
+          sizes="(max-width: 620px) 100vw, (max-width: 1050px) 50vw, 45vw"
+          className="project-gallery-cover-image"
+        />
+        <span className="project-gallery-count">{project.images.length} images</span>
+      </button>
+    );
+  }
+
   if (project.mediaType === "image-pair") {
     return (
       <div className="project-image-pair">
-        {project.images.map((image) => (
+        {project.images.map((image, imageIndex) => (
           <button
             className="project-image-pair-item"
             key={image.src}
@@ -45,7 +82,8 @@ function ProjectMedia({ project, onSelectImage }: ProjectMediaProps) {
             aria-haspopup="dialog"
             onClick={({ currentTarget }) =>
               onSelectImage(
-                { src: image.src, alt: image.alt, projectTitle: project.title },
+                { projectTitle: project.title, images: project.images },
+                imageIndex,
                 currentTarget,
               )
             }
@@ -71,7 +109,8 @@ function ProjectMedia({ project, onSelectImage }: ProjectMediaProps) {
       aria-haspopup="dialog"
       onClick={({ currentTarget }) =>
         onSelectImage(
-          { src: project.image.src, alt: project.image.alt, projectTitle: project.title },
+          { projectTitle: project.title, images: [project.image] },
+          0,
           currentTarget,
         )
       }
@@ -89,13 +128,16 @@ function ProjectMedia({ project, onSelectImage }: ProjectMediaProps) {
 
 export function ProjectGallery() {
   const [active, setActive] = useState<ProjectCategory>("All");
-  const [selectedImage, setSelectedImage] = useState<SelectedImage | null>(null);
+  const [selectedGallery, setSelectedGallery] = useState<SelectedGallery | null>(null);
+  const [activeImageIndex, setActiveImageIndex] = useState(0);
   const dialogRef = useRef<HTMLDialogElement>(null);
   const triggerRef = useRef<HTMLButtonElement | null>(null);
   const visible = active === "All" ? projects : projects.filter((project) => project.category === active);
+  const isLightboxOpen = selectedGallery !== null;
+  const currentImage = selectedGallery?.images[activeImageIndex] ?? selectedGallery?.images[0];
 
   useEffect(() => {
-    if (!selectedImage || !dialogRef.current) {
+    if (!isLightboxOpen || !dialogRef.current) {
       return;
     }
 
@@ -110,11 +152,34 @@ export function ProjectGallery() {
     return () => {
       document.body.style.overflow = previousOverflow;
     };
-  }, [selectedImage]);
+  }, [isLightboxOpen]);
 
-  const selectImage = (image: SelectedImage, trigger: HTMLButtonElement) => {
+  const selectImage = (
+    gallery: SelectedGallery,
+    imageIndex: number,
+    trigger: HTMLButtonElement,
+  ) => {
     triggerRef.current = trigger;
-    setSelectedImage(image);
+    setActiveImageIndex(imageIndex);
+    setSelectedGallery(gallery);
+  };
+
+  const showPreviousImage = () => {
+    if (!selectedGallery) {
+      return;
+    }
+
+    setActiveImageIndex((currentIndex) =>
+      (currentIndex - 1 + selectedGallery.images.length) % selectedGallery.images.length,
+    );
+  };
+
+  const showNextImage = () => {
+    if (!selectedGallery) {
+      return;
+    }
+
+    setActiveImageIndex((currentIndex) => (currentIndex + 1) % selectedGallery.images.length);
   };
 
   const closeLightbox = () => {
@@ -123,7 +188,8 @@ export function ProjectGallery() {
 
   const handleDialogClose = () => {
     const trigger = triggerRef.current;
-    setSelectedImage(null);
+    setSelectedGallery(null);
+    setActiveImageIndex(0);
     triggerRef.current = null;
 
     requestAnimationFrame(() => {
@@ -200,35 +266,77 @@ export function ProjectGallery() {
       <dialog
         ref={dialogRef}
         className="project-lightbox"
-        aria-labelledby={selectedImage ? "project-lightbox-title" : undefined}
+        aria-labelledby={selectedGallery ? "project-lightbox-title" : undefined}
+        aria-describedby={selectedGallery ? "project-lightbox-caption" : undefined}
         onClose={handleDialogClose}
+        onKeyDown={(event) => {
+          if (!selectedGallery || selectedGallery.images.length < 2) {
+            return;
+          }
+
+          if (event.key === "ArrowLeft") {
+            event.preventDefault();
+            showPreviousImage();
+          } else if (event.key === "ArrowRight") {
+            event.preventDefault();
+            showNextImage();
+          }
+        }}
         onClick={(event) => {
           if (event.target === event.currentTarget) {
             closeLightbox();
           }
         }}
       >
-        {selectedImage ? (
+        {selectedGallery && currentImage ? (
           <div className="project-lightbox-panel">
             <div className="project-lightbox-header">
               <div>
                 <p className="project-lightbox-kicker">Project image</p>
-                <h3 id="project-lightbox-title">{selectedImage.projectTitle}</h3>
-                <p className="project-lightbox-caption">{selectedImage.alt}</p>
+                <h3 id="project-lightbox-title">{selectedGallery.projectTitle}</h3>
+                <p className="project-lightbox-caption" id="project-lightbox-caption">
+                  {currentImage.alt}
+                </p>
               </div>
-              <button className="project-lightbox-close" type="button" onClick={closeLightbox}>
+              <button
+                className="project-lightbox-close"
+                type="button"
+                aria-label={`Close ${selectedGallery.projectTitle} image viewer`}
+                onClick={closeLightbox}
+              >
                 Close
               </button>
             </div>
             <div className="project-lightbox-image-wrap">
               <Image
-                src={selectedImage.src}
-                alt={selectedImage.alt}
+                src={currentImage.src}
+                alt={currentImage.alt}
                 fill
                 sizes="92vw"
                 className="project-lightbox-image"
               />
             </div>
+            {selectedGallery.images.length > 1 ? (
+              <div className="project-lightbox-footer">
+                <button
+                  type="button"
+                  aria-label={`Show previous image for ${selectedGallery.projectTitle}`}
+                  onClick={showPreviousImage}
+                >
+                  Previous
+                </button>
+                <span aria-live="polite" aria-atomic="true">
+                  Image {activeImageIndex + 1} of {selectedGallery.images.length}
+                </span>
+                <button
+                  type="button"
+                  aria-label={`Show next image for ${selectedGallery.projectTitle}`}
+                  onClick={showNextImage}
+                >
+                  Next
+                </button>
+              </div>
+            ) : null}
           </div>
         ) : null}
       </dialog>

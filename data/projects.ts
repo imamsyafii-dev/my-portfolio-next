@@ -32,6 +32,12 @@ type ProjectMedia =
       images: readonly [ProjectImage, ProjectImage];
       image?: never;
       video?: never;
+    }
+  | {
+      mediaType: "image-gallery";
+      images: readonly [ProjectImage, ProjectImage, ProjectImage, ProjectImage];
+      image?: never;
+      video?: never;
     };
 
 export type Project = {
@@ -101,6 +107,35 @@ export const projects: Project[] = [
       {
         src: "/images/projects/bbge-nickname-group-after-sanitized.png",
         alt: "BBGE group notification showing the member's configured nickname",
+        fit: "contain",
+      },
+    ],
+  },
+  {
+    id: "notification-unread-counts-api",
+    title: "Notification Unread Counts API",
+    category: "Backend",
+    description: "Dedicated backend API for unread notification counts by category, synchronized across desktop and mobile clients.",
+    mediaType: "image-gallery",
+    images: [
+      {
+        src: "/images/projects/bbge-notification-contact-desktop-sanitized.png",
+        alt: "BBGE desktop notification center showing unread counts for the contact category",
+        fit: "contain",
+      },
+      {
+        src: "/images/projects/bbge-notification-channel-desktop-sanitized.png",
+        alt: "BBGE desktop notification center showing unread counts for the channel category",
+        fit: "contain",
+      },
+      {
+        src: "/images/projects/bbge-notification-list-mobile-sanitized.png",
+        alt: "BBGE mobile notification center showing categorized unread counts",
+        fit: "contain",
+      },
+      {
+        src: "/images/projects/bbge-notification-badge-mobile-sanitized.png",
+        alt: "BBGE mobile profile navigation showing the synchronized total notification count",
         fit: "contain",
       },
     ],

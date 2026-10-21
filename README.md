@@ -21,11 +21,11 @@ pnpm build
 
 ## Architecture
 
-The App Router page is server-rendered by default. Client JavaScript is limited to the mobile navigation and accessible project filtering. CV-derived identity, skills, experience, education, and language content is typed in `data/profile.ts`. The 24-card gallery is typed in `data/projects.ts` and supports local screenshots, image pairs, and local MP4 video from `public/images/projects/`.
+The App Router page is server-rendered by default. Client JavaScript is limited to the mobile navigation and accessible project filtering. CV-derived identity, skills, experience, education, and language content is typed in `data/profile.ts`. The 25-card gallery is typed in `data/projects.ts` and supports local screenshots, image pairs, four-image galleries, and local MP4 video from `public/images/projects/`.
 
 ## Privacy
 
-The published site omits phone numbers, full addresses, dates of birth, private or external raw IP addresses, internal or private service endpoints, and sensitive implementation details. The source CV is not copied into `public/`. Sixteen gallery files use explicit `-sanitized` filenames alongside existing in-place sanitized replacements. Together they are safe portfolio assets; legacy sensitive originals have been removed from `public/`.
+The published site omits phone numbers, full addresses, dates of birth, private or external raw IP addresses, internal or private service endpoints, and sensitive implementation details. The source CV is not copied into `public/`. Twenty gallery files use explicit `-sanitized` filenames alongside existing in-place sanitized replacements. Together they are safe portfolio assets; legacy sensitive originals have been removed from `public/`.
 
 ## Deployment
 
