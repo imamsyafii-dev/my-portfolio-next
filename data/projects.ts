@@ -1,22 +1,102 @@
-export const projectCategories = ["All", "Platform", "Integration", "Feature"] as const;
+export const projectCategories = ["All", "Platform", "Backend", "Integration", "Feature"] as const;
 
 export type ProjectCategory = (typeof projectCategories)[number];
 export type ProjectFilter = Exclude<ProjectCategory, "All">;
+
+type ProjectImage = {
+  src: string;
+  alt: string;
+  fit?: "cover" | "contain";
+};
+
+type ProjectMedia =
+  | {
+      mediaType?: "image";
+      image: ProjectImage;
+      video?: never;
+      images?: never;
+    }
+  | {
+      mediaType: "video";
+      video: {
+        src: string;
+        type: "video/mp4";
+        poster: string;
+        label: string;
+      };
+      image?: never;
+      images?: never;
+    }
+  | {
+      mediaType: "image-pair";
+      images: readonly [ProjectImage, ProjectImage];
+      image?: never;
+      video?: never;
+    };
 
 export type Project = {
   id: string;
   title: string;
   category: ProjectFilter;
   description: string;
-  image: {
-    src: string;
-    alt: string;
-    fit?: "cover" | "contain";
-  };
   href?: string;
-};
+} & ProjectMedia;
 
 export const projects: Project[] = [
+  {
+    id: "bbge-desktop",
+    title: "BBGE Desktop",
+    category: "Platform",
+    description: "Cross-platform desktop messaging with real-time chat, group conversations, calls, and synchronized state.",
+    image: {
+      src: "/images/projects/bbge-desktop-sanitized.png",
+      alt: "BBGE Desktop real-time group chat interface",
+      fit: "contain",
+    },
+  },
+  {
+    id: "hide-recovery-phrase",
+    title: "Hide Recovery Phrase",
+    category: "Backend",
+    description: "Hide recovery phrase backup feature after completion across devices",
+    mediaType: "video",
+    video: {
+      src: "/images/projects/bbge-hide-recovery-sanitized.mp4",
+      type: "video/mp4",
+      poster: "/images/projects/bbge-hide-recovery-poster-sanitized.png",
+      label: "BBGE recovery phrase backup state synchronized across devices",
+    },
+  },
+  {
+    id: "delete-account-synchronize",
+    title: "Delete Account Synchronize",
+    category: "Backend",
+    description: "Handle Deleted Accounts in Groups, Chats, and Search",
+    mediaType: "image-pair",
+    images: [
+      {
+        src: "/images/projects/bbge-sync-delete-account-group-sanitized.png",
+        alt: "Deleted account identity shown consistently in a BBGE group conversation",
+        fit: "contain",
+      },
+      {
+        src: "/images/projects/bbge-sync-delete-account-chat-sanitized.png",
+        alt: "Deleted account identity shown consistently in a BBGE direct conversation",
+        fit: "contain",
+      },
+    ],
+  },
+  {
+    id: "bbge-device-management",
+    title: "BBGE Device Management",
+    category: "Feature",
+    description: "Account security controls for reviewing signed-in devices, identifying the current session, and revoking access.",
+    image: {
+      src: "/images/projects/bbge-device-management-sanitized.png",
+      alt: "BBGE device management screen showing the current signed-in device",
+      fit: "contain",
+    },
+  },
   {
     id: "im-chat-platform",
     title: "IM Chat Platform",

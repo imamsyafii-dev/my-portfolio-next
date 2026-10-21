@@ -2,8 +2,54 @@
 
 import Image from "next/image";
 import { useState } from "react";
-import { projectCategories, projects, type ProjectCategory } from "../data/projects";
+import { projectCategories, projects, type Project, type ProjectCategory } from "../data/projects";
 import { ArrowUpRight } from "./Icons";
+
+function ProjectMedia({ project }: { project: Project }) {
+  if (project.mediaType === "video") {
+    return (
+      <video
+        className="project-video"
+        controls
+        playsInline
+        preload="metadata"
+        poster={project.video.poster}
+        aria-label={project.video.label}
+      >
+        <source src={project.video.src} type={project.video.type} />
+        <a href={project.video.src}>View {project.title} video</a>
+      </video>
+    );
+  }
+
+  if (project.mediaType === "image-pair") {
+    return (
+      <div className="project-image-pair">
+        {project.images.map((image) => (
+          <div className="project-image-pair-item" key={image.src}>
+            <Image
+              src={image.src}
+              alt={image.alt}
+              fill
+              sizes="(max-width: 620px) 50vw, (max-width: 1050px) 25vw, 23vw"
+              className="project-pair-image"
+            />
+          </div>
+        ))}
+      </div>
+    );
+  }
+
+  return (
+    <Image
+      src={project.image.src}
+      alt={project.image.alt}
+      fill
+      sizes="(max-width: 620px) 100vw, (max-width: 1050px) 50vw, 45vw"
+      className={`project-image ${project.image.fit === "contain" ? "project-image-contain" : ""}`}
+    />
+  );
+}
 
 export function ProjectGallery() {
   const [active, setActive] = useState<ProjectCategory>("All");
@@ -36,13 +82,7 @@ export function ProjectGallery() {
           return (
             <article className="project-card" key={project.id}>
               <div className="project-visual">
-                <Image
-                  src={project.image.src}
-                  alt={project.image.alt}
-                  fill
-                  sizes="(max-width: 620px) 100vw, (max-width: 1050px) 50vw, 45vw"
-                  className={`project-image ${project.image.fit === "contain" ? "project-image-contain" : ""}`}
-                />
+                <ProjectMedia project={project} />
                 <span className="project-number" aria-hidden="true">
                   {String(projectNumber).padStart(2, "0")}
                 </span>
