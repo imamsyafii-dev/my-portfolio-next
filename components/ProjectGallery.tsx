@@ -1,11 +1,22 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { projectCategories, projects, type Project, type ProjectCategory } from "../data/projects";
 import { ArrowUpRight } from "./Icons";
 
-function ProjectMedia({ project }: { project: Project }) {
+type SelectedImage = {
+  src: string;
+  alt: string;
+  projectTitle: string;
+};
+
+type ProjectMediaProps = {
+  project: Project;
+  onSelectImage: (image: SelectedImage, trigger: HTMLButtonElement) => void;
+};
+
+function ProjectMedia({ project, onSelectImage }: ProjectMediaProps) {
   if (project.mediaType === "video") {
     return (
       <video
@@ -26,7 +37,19 @@ function ProjectMedia({ project }: { project: Project }) {
     return (
       <div className="project-image-pair">
         {project.images.map((image) => (
-          <div className="project-image-pair-item" key={image.src}>
+          <button
+            className="project-image-pair-item"
+            key={image.src}
+            type="button"
+            aria-label={`Enlarge ${image.alt}`}
+            aria-haspopup="dialog"
+            onClick={({ currentTarget }) =>
+              onSelectImage(
+                { src: image.src, alt: image.alt, projectTitle: project.title },
+                currentTarget,
+              )
+            }
+          >
             <Image
               src={image.src}
               alt={image.alt}
@@ -34,26 +57,88 @@ function ProjectMedia({ project }: { project: Project }) {
               sizes="(max-width: 620px) 50vw, (max-width: 1050px) 25vw, 23vw"
               className="project-pair-image"
             />
-          </div>
+          </button>
         ))}
       </div>
     );
   }
 
   return (
-    <Image
-      src={project.image.src}
-      alt={project.image.alt}
-      fill
-      sizes="(max-width: 620px) 100vw, (max-width: 1050px) 50vw, 45vw"
-      className={`project-image ${project.image.fit === "contain" ? "project-image-contain" : ""}`}
-    />
+    <button
+      className="project-image-button"
+      type="button"
+      aria-label={`Enlarge ${project.image.alt}`}
+      aria-haspopup="dialog"
+      onClick={({ currentTarget }) =>
+        onSelectImage(
+          { src: project.image.src, alt: project.image.alt, projectTitle: project.title },
+          currentTarget,
+        )
+      }
+    >
+      <Image
+        src={project.image.src}
+        alt={project.image.alt}
+        fill
+        sizes="(max-width: 620px) 100vw, (max-width: 1050px) 50vw, 45vw"
+        className={`project-image ${project.image.fit === "contain" ? "project-image-contain" : ""}`}
+      />
+    </button>
   );
 }
 
 export function ProjectGallery() {
   const [active, setActive] = useState<ProjectCategory>("All");
+  const [selectedImage, setSelectedImage] = useState<SelectedImage | null>(null);
+  const dialogRef = useRef<HTMLDialogElement>(null);
+  const triggerRef = useRef<HTMLButtonElement | null>(null);
   const visible = active === "All" ? projects : projects.filter((project) => project.category === active);
+
+  useEffect(() => {
+    if (!selectedImage || !dialogRef.current) {
+      return;
+    }
+
+    const dialog = dialogRef.current;
+    const previousOverflow = document.body.style.overflow;
+
+    if (!dialog.open) {
+      dialog.showModal();
+    }
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [selectedImage]);
+
+  const selectImage = (image: SelectedImage, trigger: HTMLButtonElement) => {
+    triggerRef.current = trigger;
+    setSelectedImage(image);
+  };
+
+  const closeLightbox = () => {
+    dialogRef.current?.close();
+  };
+
+  const handleDialogClose = () => {
+    const trigger = triggerRef.current;
+    setSelectedImage(null);
+    triggerRef.current = null;
+
+    requestAnimationFrame(() => {
+      if (trigger?.isConnected) {
+        trigger.focus();
+      }
+    });
+  };
+
+  const changeFilter = (category: ProjectCategory) => {
+    if (dialogRef.current?.open) {
+      dialogRef.current.close();
+    }
+    setActive(category);
+  };
 
   return (
     <>
@@ -64,7 +149,7 @@ export function ProjectGallery() {
             type="button"
             className={active === category ? "is-active" : ""}
             aria-pressed={active === category}
-            onClick={() => setActive(category)}
+            onClick={() => changeFilter(category)}
           >
             {category}
           </button>
@@ -82,7 +167,7 @@ export function ProjectGallery() {
           return (
             <article className="project-card" key={project.id}>
               <div className="project-visual">
-                <ProjectMedia project={project} />
+                <ProjectMedia project={project} onSelectImage={selectImage} />
                 <span className="project-number" aria-hidden="true">
                   {String(projectNumber).padStart(2, "0")}
                 </span>
@@ -111,6 +196,42 @@ export function ProjectGallery() {
           );
         })}
       </div>
+
+      <dialog
+        ref={dialogRef}
+        className="project-lightbox"
+        aria-labelledby={selectedImage ? "project-lightbox-title" : undefined}
+        onClose={handleDialogClose}
+        onClick={(event) => {
+          if (event.target === event.currentTarget) {
+            closeLightbox();
+          }
+        }}
+      >
+        {selectedImage ? (
+          <div className="project-lightbox-panel">
+            <div className="project-lightbox-header">
+              <div>
+                <p className="project-lightbox-kicker">Project image</p>
+                <h3 id="project-lightbox-title">{selectedImage.projectTitle}</h3>
+                <p className="project-lightbox-caption">{selectedImage.alt}</p>
+              </div>
+              <button className="project-lightbox-close" type="button" onClick={closeLightbox}>
+                Close
+              </button>
+            </div>
+            <div className="project-lightbox-image-wrap">
+              <Image
+                src={selectedImage.src}
+                alt={selectedImage.alt}
+                fill
+                sizes="92vw"
+                className="project-lightbox-image"
+              />
+            </div>
+          </div>
+        ) : null}
+      </dialog>
     </>
   );
 }

@@ -87,6 +87,25 @@ export const projects: Project[] = [
     ],
   },
   {
+    id: "group-nickname-synchronization",
+    title: "User's Nickname in Group",
+    category: "Backend",
+    description: "Show User's Nickname In Group Settings for Notification",
+    mediaType: "image-pair",
+    images: [
+      {
+        src: "/images/projects/bbge-nickname-group-before-sanitized.png",
+        alt: "BBGE group notification before a member nickname is applied",
+        fit: "contain",
+      },
+      {
+        src: "/images/projects/bbge-nickname-group-after-sanitized.png",
+        alt: "BBGE group notification showing the member's configured nickname",
+        fit: "contain",
+      },
+    ],
+  },
+  {
     id: "bbge-device-management",
     title: "BBGE Device Management",
     category: "Feature",
