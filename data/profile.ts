@@ -40,14 +40,14 @@ export type Profile = {
 export const profile: Profile = {
   identity: {
     name: "Imam Syafii",
-    title: "Backend Developer | Go, Rust & Real-Time Systems",
+    title: "Senior Software Developer | Go, PHP, Laravel, ReactJS, NextJS",
     email: "imamsyafii.dev@gmail.com",
     location: "Tangerang, Indonesia",
   },
   heroIntro:
     "I build Go backend services and shared Rust client runtimes for cross-platform real-time products, with a focus on reliable APIs, data, and synchronization.",
   summary:
-    "Backend Developer with 10+ years of software engineering experience. Currently developing Go backend services and Rust-based client runtimes for BBGE, a cross-platform real-time messaging application. Previously built e-commerce, payment, financial, and operational systems using PHP, Laravel, Node.js, React, and Vue. Experienced in API design, databases, real-time communication, system integration, and cross-platform troubleshooting.",
+    "Senior Software Developer with 10+ years of software engineering experience. Currently developing Go backend services and Rust-based client runtimes for BBGE, a cross-platform real-time messaging application. Previously built e-commerce, payment, financial, and operational systems using PHP, Laravel, Node.js, React, and Vue. Experienced in API design, databases, real-time communication, system integration, and cross-platform troubleshooting.",
   skills: [
     {
       name: "Backend",
