@@ -19,21 +19,21 @@ const services = [
     number: "01",
     title: "Backend & API engineering",
     description:
-      "Go, PHP, and Node.js services, plus shared Rust runtimes, with clear contracts, dependable data access, and maintainable domain logic.",
+      "Go, PHP, Java, and Node.js services with clear REST contracts, dependable data access, and maintainable domain logic.",
   },
   {
     icon: <LayersIcon />,
     number: "02",
-    title: "Real-time & cross-platform systems",
+    title: "Business & financial platforms",
     description:
-      "Messaging, calling, runtime, and synchronization work spanning backend, desktop, Android, and iOS boundaries.",
+      "E-commerce, seminar, payment, banking, accounting, and notification workflows built for daily operations.",
   },
   {
     icon: <MessageIcon />,
     number: "03",
-    title: "System integration & troubleshooting",
+    title: "Integration & troubleshooting",
     description:
-      "Focused investigation and integration work across protocols, payments, infrastructure, and connected applications.",
+      "Third-party API, payment gateway, database, and real-time integration work supported by focused debugging.",
   },
 ];
 
@@ -56,12 +56,14 @@ export default function Home() {
                 <span /> {identity.title}
               </p>
               <h1>
-                Engineering the systems
+                Building reliable systems
                 <br />
-                <span>behind real-time products.</span>
+                <span>for real-world businesses.</span>
               </h1>
               <p className="hero-intro">
-                I&apos;m {identity.name}. {profile.heroIntro}
+                I&apos;m {identity.name}. I develop backend systems, web applications, and enterprise
+                business solutions across e-commerce, financial operations, payment integrations, and
+                real-time messaging.
               </p>
               <div className="hero-actions">
                 <a className="button button-primary" href="#work">
@@ -114,9 +116,9 @@ export default function Home() {
               <div>
                 <p className="kicker">Profile</p>
                 <h2>
-                  Backend depth,
+                  Backend systems,
                   <br />
-                  cross-platform reach.
+                  business solutions.
                 </h2>
               </div>
               <div className="about-lead">
@@ -139,17 +141,19 @@ export default function Home() {
                   ))}
                 </ul>
               </article>
-              <article className="credential-panel language-panel">
-                <span className="fact-label">Languages</span>
-                <ul className="language-list">
-                  {profile.languages.map((language) => (
-                    <li key={language.name}>
-                      <strong>{language.name}</strong>
-                      <span>{language.proficiency}</span>
-                    </li>
-                  ))}
-                </ul>
-              </article>
+              {profile.languages.length > 0 ? (
+                <article className="credential-panel language-panel">
+                  <span className="fact-label">Languages</span>
+                  <ul className="language-list">
+                    {profile.languages.map((language) => (
+                      <li key={language.name}>
+                        <strong>{language.name}</strong>
+                        <span>{language.proficiency}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </article>
+              ) : null}
             </div>
 
             <div className="skills-list" aria-label="Technical skills">
@@ -222,11 +226,11 @@ export default function Home() {
             <div className="section-heading service-heading">
               <div>
                 <p className="kicker">What I can help with</p>
-                <h2>Focused systems engineering.</h2>
+                <h2>Backend and business systems engineering.</h2>
               </div>
               <p>
-                From backend foundations to cross-platform synchronization, I help make connected
-                software clearer, more reliable, and easier to maintain.
+                I build and integrate reliable software for e-commerce, financial operations,
+                enterprise workflows, and real-time communication.
               </p>
             </div>
             <div className="service-list">

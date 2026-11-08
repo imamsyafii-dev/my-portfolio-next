@@ -1,5 +1,5 @@
 export type SkillGroup = {
-  name: "Backend" | "Frontend" | "Data" | "Protocols" | "Infrastructure" | "Systems";
+  name: string;
   skills: string[];
 };
 
@@ -40,108 +40,120 @@ export type Profile = {
 export const profile: Profile = {
   identity: {
     name: "Imam Syafii",
-    title: "Senior Software Developer | Go, PHP, Laravel, ReactJS, NextJS",
+    title: "Senior Software Engineer | Backend & Full-Stack Development",
     email: "imamsyafii.dev@gmail.com",
     location: "Tangerang, Indonesia",
   },
   heroIntro:
-    "I build Go backend services and shared Rust client runtimes for cross-platform real-time products, with a focus on reliable APIs, data, and synchronization.",
+    "I build backend systems, web applications, and enterprise solutions that connect real-time products, business operations, and reliable data.",
   summary:
-    "Senior Software Developer with 10+ years of software engineering experience. Currently developing Go backend services and Rust-based client runtimes for BBGE, a cross-platform real-time messaging application. Previously built e-commerce, payment, financial, and operational systems using PHP, Laravel, Node.js, React, and Vue. Experienced in API design, databases, real-time communication, system integration, and cross-platform troubleshooting.",
+    "Senior Software Engineer with 10+ years of experience developing backend systems, web applications, and enterprise business solutions. Skilled in Go, PHP, Laravel, Java, React, Next.js, PostgreSQL, and REST API development. Experienced in e-commerce, payment gateway integration, financial systems, real-time messaging, and third-party API integration. Proficient in debugging, system integration, database design, and AI-assisted software development.",
   skills: [
     {
-      name: "Backend",
-      skills: ["Go", "Rust", "PHP", "Laravel", "Yii", "Node.js", "Express.js"],
+      name: "Programming Languages",
+      skills: ["PHP", "Go", "Java", "JavaScript", "TypeScript"],
     },
     {
-      name: "Frontend",
-      skills: ["TypeScript", "JavaScript", "React", "React Native", "Vue", "Nuxt", "Tauri"],
+      name: "Backend Development",
+      skills: ["Laravel", "Yii", "Node.js", "Express.js", "REST APIs", "WebSockets", "Protocol Buffers"],
     },
     {
-      name: "Data",
-      skills: ["PostgreSQL", "MySQL", "MongoDB", "SQLite", "SQLC"],
+      name: "AI-Native Development",
+      skills: ["OpenAI Codex", "AI coding agents", "Sub-agents", "Reusable agent skills", "AI-assisted code review", "Requirement analysis", "Debugging"],
     },
     {
-      name: "Protocols",
-      skills: ["REST", "WebSocket", "Protocol Buffers", "gRPC", "JSON-RPC", "FFI"],
+      name: "Frontend Development",
+      skills: ["React.js", "Next.js", "Vue.js", "Nuxt.js"],
     },
     {
-      name: "Infrastructure",
+      name: "Databases",
+      skills: ["PostgreSQL", "MySQL", "MongoDB", "Oracle Database"],
+    },
+    {
+      name: "Version Control",
+      skills: ["Git", "SVN (Apache Subversion)"],
+    },
+    {
+      name: "DevOps & Tools",
       skills: ["Docker", "Kubernetes", "GitHub Actions", "CI/CD"],
     },
     {
-      name: "Systems",
-      skills: ["WuKongIM", "LiveKit", "real-time messaging", "payment integrations"],
+      name: "Integrations",
+      skills: ["Payment gateways", "Third-party APIs"],
+    },
+    {
+      name: "Domain Expertise",
+      skills: ["E-commerce systems", "Financial systems", "Real-time messaging"],
     },
   ],
   experience: [
     {
-      role: "Backend Developer",
+      role: "Software Engineer – Backend & Systems Engineering",
       company: "Citra International Digital",
-      dates: "Sep 2024–Present",
+      dates: "Sep 2024–Oct 2026",
       context:
         "BBGE — a cross-platform instant-messaging application with integrated digital-wallet capabilities, spanning server and client runtime work.",
       highlights: [
-        "Develop and maintain Go backend services and a shared Rust client runtime used across desktop and mobile applications.",
-        "Design and maintain client-server contracts using Protocol Buffers, HTTP APIs, WebSockets, PostgreSQL, SQLite, and SQLC-generated data access.",
-        "Extend the Rust runtime through FFI for mobile clients and Tauri commands for desktop while resolving cross-platform synchronization and data-consistency issues.",
-        "Integrate and troubleshoot WuKongIM and LiveKit, with selected contributions across sessions, group chat and mentions, contact lifecycle, notifications, calling, and live-channel state.",
+        "Developed and maintained Go backend services for messaging, authentication, account sessions, device management, contacts, groups, notifications, online presence, and voice/video communication.",
+        "Integrated WuKongIM and LiveKit to support real-time messaging and communication features.",
+        "Investigated and resolved data synchronization, concurrency, and consistency issues across backend services and client applications.",
+        "Developed API contracts and database interactions using PostgreSQL, SQLite, Protocol Buffers, and WebSockets.",
+        "Used Docker, Kubernetes, and CI/CD workflows to support development, testing, and deployment.",
       ],
     },
     {
-      role: "Senior Programmer",
+      role: "Senior Software Engineer – Full-Stack & Business Systems",
       company: "IMPORTIR.ORG",
       dates: "Jan 2018–Aug 2024",
-      context: "Import services, e-commerce, seminar operations, and internal financial systems.",
+      context: "Tangerang — e-commerce, financial operations, and seminar management platforms.",
       highlights: [
-        "Built a seminar platform covering public registration, administrative attendance management, Google Calendar scheduling, Zoom integration, and participant notifications.",
-        "Developed IMPORTIR.COM for Alibaba product discovery, order administration, and delivery tracking, and integrated 1688 product, ordering, and payment APIs.",
-        "Integrated Midtrans, Xendit, and Stripe payments and built ANGGARAN for vendor payments and expense tracking with Flip disbursements.",
-        "Automated accounting records and BCA transaction retrieval through scheduled jobs, and implemented bulk email, SMS, and WhatsApp notifications.",
+        "Developed and maintained IMPORTIR.COM, ANGGARAN.COM, and IMPORTIR.ORG across e-commerce, financial operations, and seminar management.",
+        "Built a seminar management platform handling approximately 100–200 new registrations daily, with an estimated 70% paid registrations.",
+        "Integrated Midtrans, Xendit, and Stripe payment gateways across e-commerce and seminar platforms.",
+        "Integrated BCA banking APIs for direct transaction retrieval in the internal finance panel and Flip API for initiating bank transfers from ANGGARAN.COM.",
+        "Integrated Alibaba and 1688 APIs for product information, ordering, and payment workflows.",
+        "Developed automated accounting workflows and notification services for email, SMS, and WhatsApp.",
       ],
     },
     {
-      role: "Full-stack Developer",
-      company: "Ebizu",
+      role: "Software Engineer – Full-Stack & Fraud Detection Systems",
+      company: "EBIZU | Manis – Receipt-Based Loyalty & Rewards Platform",
       dates: "Jul 2017–Jan 2018",
       highlights: [
-        "Maintained and debugged an administrative application supporting receipt-based transaction processing.",
-        "Developed a module for identifying potentially fraudulent transaction data.",
+        "Maintained and enhanced backend and administrative applications for receipt-based loyalty and rewards workflows.",
+        "Developed workflows for reviewing, validating, and approving purchase receipts before reward points were credited.",
+        "Built fraud-detection and data-integrity checks for duplicate submissions and suspicious transaction data.",
+        "Used MySQL for transactional data and MongoDB for application logging and activity records.",
       ],
     },
     {
-      role: "Backend Developer",
-      company: "Golden Rama",
-      dates: "Jan 2017–Jun 2017",
+      role: "Software Engineer – Backend & Travel Booking Integration",
+      company: "GOLDEN RAMA | Travel & Tourism Platform",
+      dates: "Jan 2017–Jul 2017",
       highlights: [
-        "Integrated an external API providing real-time flight scheduling information.",
-        "Developed backend APIs for hotel registration workflows.",
+        "Developed and maintained PHP/Yii backend applications supporting travel booking and reservation operations.",
+        "Integrated third-party travel APIs for flight schedules, availability, pricing, and booking transactions.",
+        "Developed APIs for end-to-end flight, hotel, and ferry booking workflows and synchronized reservation data with external providers.",
       ],
     },
     {
-      role: "Programmer",
-      company: "MNC Cable Mediacom",
+      role: "Software Engineer – Backend & Middleware Integration",
+      company: "PT MNC Kabel Mediacom | MNC Play",
       dates: "Jan 2016–Dec 2016",
       highlights: [
-        "Built an administrative application from the ground up to display and manage internet subscriber information.",
-        "Developed the application using PHP, Yii, and MySQL.",
+        "Developed and maintained web-based administrative applications for subscriber management and operational workflows.",
+        "Contributed to a multi-channel Reminder System supporting SMS, email, TVMS, and scheduled notifications.",
+        "Authored the ECO-REMINDER API Specification v2.0 for billing integration, messaging, and template management.",
+        "Worked with Oracle Database and Java-based middleware integrations for internal business applications.",
       ],
     },
   ],
   education: [
     {
-      qualification: "Bachelor of Computer Science",
+      qualification: "Bachelor of Computer Science (GPA: 3.25/4.00)",
       institution: "Diponegoro University",
-      dates: "Jun 2011–Nov 2016",
-    },
-    {
-      qualification: "Natural Sciences",
-      institution: "SMA Negeri 2 Pemalang",
-      dates: "Jun 2007–Jul 2010",
+      dates: "2011–2015",
     },
   ],
-  languages: [
-    { name: "Indonesian", proficiency: "Native" },
-    { name: "English", proficiency: "Intermediate" },
-  ],
+  languages: [],
 };
